@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const saveCookie = (req, res, token) => {
   res.cookie("code", token, {
-    maxAge: process.env.CODE_COOKIE,
+    maxAge: process.env.CODE_COOKIE * 24 * 60 * 60 * 1000,
     httpOnly: true,
     secure: process.env.NODE_ENV == "DEVELOPMENT" ? false : true,
   });
