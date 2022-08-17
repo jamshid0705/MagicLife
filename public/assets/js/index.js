@@ -1,52 +1,68 @@
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-
 import {
   getAuth,
   RecaptchaVerifier,
   signInWithPhoneNumber,
+  confirmationResult,
 } from "firebase/auth";
+import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD8iIMOFPRt3w9h5BDz0LVkf56610REXt8",
-  authDomain: "magic-life-ef965.firebaseapp.com",
-  projectId: "magic-life-ef965",
-  storageBucket: "magic-life-ef965.appspot.com",
-  messagingSenderId: "651047223103",
-  appId: "1:651047223103:web:913a32266d8f8553601d8a",
-  measurementId: "G-GC674FZFSG",
+  apiKey: "AIzaSyDJ5bEtxTMVYOAF7-ZsganzdtdiLGFIx48",
+  authDomain: "magiclife-77dbd.firebaseapp.com",
+  projectId: "magiclife-77dbd",
+  storageBucket: "magiclife-77dbd.appspot.com",
+  messagingSenderId: "288774838203",
+  appId: "1:288774838203:web:9098c7ac1e422706c1969e",
+  measurementId: "G-9C6B52MCYJ",
 };
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+initializeApp(firebaseConfig)
 
-const auth = getAuth(app);
-auth.languageCode = "uz";
+const auth = getAuth();
+auth.languageCode = "en";
 
 window.recaptchaVerifier = new RecaptchaVerifier(
-  "sign-in-button",
+  "send",
   {
     size: "invisible",
     callback: (response) => {
       // reCAPTCHA solved, allow signInWithPhoneNumber.
-      onSignInSubmit();
+      console.log('problema yechildi !')
     },
   },
   auth
 );
 
-const phoneNumber = "935747191";
+document.querySelector('#send').addEventListener('click',(e)=>{
+  const phoneNumber = document.querySelector("#numberPhone").value;
+  const appVerifier = window.recaptchaVerifier;
 
-const appVerifier = window.recaptchaVerifier;
+  signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+    .then((confirmationResult) => {
+      console.log(confirmationResult)
+      console.log('kod ketdi!')
+      window.confirmationResult = confirmationResult;
+      
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+})
 
-signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-  .then((confirmationResult) => {
-    // SMS sent. Prompt user to type the code from the message, then sign the
-    // user in with confirmationResult.confirm(code).
-    window.confirmationResult = confirmationResult;
-    // ...
-  })
-  .catch((error) => {
-    // Error; SMS not sent
-    // ...
-  });
+document.querySelector("#verify").addEventListener('click',()=>{
+  
+  const code = document.querySelector("#verificationCode").value;
+  window.confirmationResult
+    .confirm(code)
+    .then((result) => {
+      // User signed in successfully.
+      console.log(result)
+      alert("Siz tizimga successful kirdingiz !");
+      // ...
+    })
+    .catch((error) => {
+      // User couldn't sign in (bad verification code?)
+      alert("Siz tizimga successful kirolmadingiz !");
+      // ...
+    });
+});
