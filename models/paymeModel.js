@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const paymeSchema = new mongoose.Schema({
   payme_id: {
     type: String,
-    unique: true,
   },
   time: {
     type: String,
