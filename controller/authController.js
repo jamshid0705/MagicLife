@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const saveCookie = (req, res, token) => {
   res.cookie("code", token, {
-    maxAge: process.env.CODE_COOKIE * 24 * 60 * 60 * 1000,
+    maxAge:  24 * 60 * 60 * 1000,
     httpOnly: true,
     secure: process.env.NODE_ENV == "DEVELOPMENT" ? false : true,
   });
@@ -18,7 +18,8 @@ const createToken = (id) => {
   });
 };
 
-const sign_up = catchErrorAsync(async (req, res, next) => {
+const sign_up = async (req, res, next) => {
+  console.log(1);
   let token;
   const randomCode = Math.round(Math.random() * 900000 + 100000);
 
@@ -57,8 +58,8 @@ const sign_up = catchErrorAsync(async (req, res, next) => {
     message: "Emailingizga kod jo'natildi",
   });
 
-  next(); 
-});
+  next();
+};
 
 const verifyCode = catchErrorAsync(async (req, res, next) => {
   const getCode = await jwt.verify(

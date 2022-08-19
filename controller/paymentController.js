@@ -1,16 +1,29 @@
-// const CheckPerformTransaction = async((req, res) => {});
+const { catchErrorAsync } = require("../utilities/catchError");
 
-// const CreateTransaction = async((req, res) => {});
+const CheckPerformTransaction = catchErrorAsync(async(req,res)=>{
+  const id=req.body.params.account.id
 
-// const PerformTransaction = async((req, res) => {});
+  if(id!=1){
+    res.status(200).json({
+      result:{
+        allow:-31050,
+      }
+    })
+  }
+  
+})
 
-// const CancelTransaction = async((req, res) => {});
+const CreateTransaction = catchErrorAsync(async (req, res) => {});
 
-// const CheckTransaction = async((req, res) => {});
+const PerformTransaction = catchErrorAsync(async (req, res) => {});
 
-// const GetStatement = async((req, res) => {});
+const CancelTransaction = catchErrorAsync(async (req, res) => {});
 
-const handler=((req,res,next)=>{
+const CheckTransaction = catchErrorAsync(async (req, res) => {});
+
+const GetStatement = catchErrorAsync(async (req, res) => {});
+
+const handler=catchErrorAsync(async(req,res,next)=>{
   const method=req.body.method
   switch (method) {
     case "CheckPerformTransaction":

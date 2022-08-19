@@ -8,7 +8,6 @@ const codeSchema = new mongoose.Schema(
     },
     code: {
       type: Number,
-      required: true,
     },
 
     expired_date: {
