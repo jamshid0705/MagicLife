@@ -36,7 +36,6 @@ window.recaptchaVerifier = new RecaptchaVerifier(
 document.querySelector('#send').addEventListener('click',(e)=>{
   const phoneNumber = document.querySelector("#numberPhone").value;
   const appVerifier = window.recaptchaVerifier;
-
   signInWithPhoneNumber(auth, phoneNumber, appVerifier)
     .then((confirmationResult) => {
       console.log(confirmationResult)
@@ -45,7 +44,7 @@ document.querySelector('#send').addEventListener('click',(e)=>{
       
     })
     .catch((error) => {
-      console.log(error)
+      console.log("error bor",error)
     });
 })
 

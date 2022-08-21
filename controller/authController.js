@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const saveCookie = (req, res, token) => {
   res.cookie("code", token, {
-    maxAge:  24 * 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
     secure: process.env.NODE_ENV == "DEVELOPMENT" ? false : true,
   });
@@ -21,7 +21,7 @@ const createToken = (id) => {
 const sign_up = async (req, res, next) => {
   console.log(1);
   let token;
-  const randomCode = Math.round(Math.random() * 900000 + 100000);
+  const randomCode = Number(Math.round(Math.random() * 900000 + 100000));
 
   if (req.body.email) {
     const user = {
@@ -49,7 +49,7 @@ const sign_up = async (req, res, next) => {
     await new Email(user, randomCode).sendCode();
   }
 
-  req.email = req.body.email;
+  // req.email = req.body.email;
 
   saveCookie(req, res, token);
 
